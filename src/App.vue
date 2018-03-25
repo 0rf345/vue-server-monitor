@@ -1,22 +1,29 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
+    <MainView />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import MainView from './components/MainView'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MainView
   }
 }
 </script>
 
 <style>
+#app {
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+}
+/*
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -25,4 +32,5 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+*/
 </style>
