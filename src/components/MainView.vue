@@ -1,7 +1,12 @@
 <template>
   <div id="mainView">
     <div class="header"></div>
-    <div class="mainBody"></div>
+    <div class="mainBody">
+      <div class="statusBar"></div>
+      <div class="serverBoxes">
+        <div class="box" v-for="server in servers" :key="server.id">{{ server }}</div>
+      </div>
+    </div>
     <div class="footer"></div>
   </div>
 </template>
@@ -10,7 +15,11 @@
 export default {
   name: 'mainView',
   components: {
-  }
+  },
+  data: () => ({
+    count: 1,
+    servers: Array(200).fill(10)
+  })
 }
 </script>
 
@@ -22,18 +31,36 @@ export default {
 }
 
 .header {
-  height: 10%;
+  height: 5%;
   border: 1px solid green;
 }
 
 .mainBody {
-  height: 85%;
+  height: 90%;
   border: 1px solid yellow;
 }
 
 .footer {
   height: 5%;
   border: 1px solid blue;
+}
+
+.mainBody > .statusBar {
+  height: 10%;
+  border: 1px solid indianred;
+}
+
+.mainBody > .serverBoxes {
+  height: 90%;
+  border: 1px solid orange;
+}
+
+.serverBoxes > .box {
+  position: relative;
+  float: left;
+  height: 10%;
+  width: 5%;
+  border: 1px solid lightgreen;
 }
 
 </style>
