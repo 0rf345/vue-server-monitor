@@ -2,9 +2,8 @@
   <div id="mainView">
     <div class="header"></div>
     <div class="mainBody">
-      <div class="statusBar"></div>
-      <div class="serverBoxes">
-        <div class="box" v-for="server in servers" :key="server.id">{{ server }}</div>
+      <div class="box" v-for="server in servers" :key="server.id">
+        {{ server }}
       </div>
     </div>
     <div class="footer"></div>
@@ -18,7 +17,7 @@ export default {
   },
   data: () => ({
     count: 1,
-    servers: Array(200).fill(10)
+    servers: Array(468).fill('1')
   })
 }
 </script>
@@ -31,36 +30,32 @@ export default {
 }
 
 .header {
-  height: 5%;
-  border: 1px solid green;
+  height: 5vh;
+  background-color: green;
 }
 
 .mainBody {
-  height: 90%;
-  border: 1px solid yellow;
+  background-color: DodgerBlue;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  height: 90vh;
+}
+
+.mainBody > .box {
+  background-color: #f76767;
+  width: 100px;
+  height: 30px;
+  margin: 1px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 20px;
 }
 
 .footer {
-  height: 5%;
-  border: 1px solid blue;
-}
-
-.mainBody > .statusBar {
-  height: 10%;
-  border: 1px solid indianred;
-}
-
-.mainBody > .serverBoxes {
-  height: 90%;
-  border: 1px solid orange;
-}
-
-.serverBoxes > .box {
-  position: relative;
-  float: left;
-  height: 10%;
-  width: 5%;
-  border: 1px solid lightgreen;
+  height: 5vh;
+  background-color: purple;
 }
 
 </style>
