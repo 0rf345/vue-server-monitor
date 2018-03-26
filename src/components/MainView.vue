@@ -1,10 +1,18 @@
 <template>
   <div id="mainView">
-    <div class="header"></div>
+    <div class="header">
+      <button @click="addServers(true)">
+        MORE
+      </button>
+      <button @click="addServers(false)">
+        less
+      </button>
+      <p id="ofServers">{{ count }}</p>
+    </div>
     <div class="mainBody">
-      <div class="box" v-for="server in servers" :key="server.id">
+      <button v-for="server in servers" :key="server.id" :style=boxStyle>
         {{ server }}
-      </div>
+      </button>
     </div>
     <div class="footer"></div>
   </div>
@@ -16,9 +24,37 @@ export default {
   components: {
   },
   data: () => ({
-    count: 1,
-    servers: Array(468).fill('1')
-  })
+    count: 10,
+    fontSize: 40
+  }),
+  methods: {
+    addServers: function (add) {
+      add ? this.count += 10 : this.count -= 10
+      if (this.count < 100) {
+        this.fontSize = 40
+      } else if (this.count < 140) {
+        this.fontSize = 35;
+      } else if (this.count < 180) {
+        this.fontSize = 30;
+      } else if (this.count < 260) {
+        this.fontSize = 25;
+      } else if (this.count < 370) {
+        this.fontSize = 20;
+      } else {
+        this.fontSize = 15;
+      }
+    }
+  },
+  computed: {
+    servers: function () {
+      return Array(this.count).fill('Serveras2222')
+    },
+    boxStyle: function () {
+      return (
+        'fontSize: ' + this.fontSize + 'px;'
+      )
+    }
+  }
 }
 </script>
 
@@ -31,31 +67,34 @@ export default {
 
 .header {
   height: 5vh;
-  background-color: green;
+  background-color: peachpuff;
+  text-align: center;
 }
 
 .mainBody {
   background-color: DodgerBlue;
-  display: flex;
+  display: flex table;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: center;
+  justify-content: left;
   height: 90vh;
-}
-
-.mainBody > .box {
-  background-color: #f76767;
-  width: 100px;
-  height: 30px;
-  margin: 1px;
+  overflow: hidden;
   text-align: center;
-  line-height: 30px;
-  font-size: 20px;
 }
 
 .footer {
   height: 5vh;
   background-color: purple;
+}
+
+#ofServers {
+  margin-top: 0;
+}
+
+button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border-radius: 5px;
 }
 
 </style>
