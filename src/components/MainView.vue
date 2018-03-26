@@ -33,15 +33,15 @@ export default {
       if (this.count < 100) {
         this.fontSize = 40
       } else if (this.count < 140) {
-        this.fontSize = 35;
+        this.fontSize = 35
       } else if (this.count < 180) {
-        this.fontSize = 30;
+        this.fontSize = 30
       } else if (this.count < 260) {
-        this.fontSize = 25;
+        this.fontSize = 25
       } else if (this.count < 370) {
-        this.fontSize = 20;
+        this.fontSize = 20
       } else {
-        this.fontSize = 15;
+        this.fontSize = 15
       }
     }
   },
