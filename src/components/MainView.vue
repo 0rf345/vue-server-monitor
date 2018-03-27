@@ -7,7 +7,7 @@
       <button @click="addServers(false)">
         less
       </button>
-      <p id="ofServers">{{ count }}</p>
+      <p id="ofServers">Number of Servers: {{ count }}</p>
     </div>
     <div class="mainBody">
       <ServerView :servers=servers :fontSize=fontSize />
@@ -30,7 +30,7 @@ export default {
   }),
   methods: {
     addServers: function (add) {
-      add ? this.count += 10 : this.count -= 10
+      add ? this.count += 10 : this.count > 9 ? this.count -= 10 : this.count = this.count
     }
   },
   computed: {
@@ -52,6 +52,10 @@ export default {
   height: 5vh;
   background-color: peachpuff;
   text-align: center;
+}
+
+#ofServers {
+  margin-top: 1vh;
 }
 
 .mainBody {
