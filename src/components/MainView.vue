@@ -1,13 +1,16 @@
 <template>
   <div id="mainView">
     <div class="header">
-      <button @click="addServers(true)">
-        MORE
-      </button>
-      <button @click="addServers(false)">
-        less
-      </button>
-      <p id="ofServers">Number of Servers: {{ count }}</p>
+      <span style="margin-left: 48vw; ">
+        <button @click="addServers(true)">
+          MORE
+        </button>
+        <button class="center" @click="addServers(false)">
+          less
+        </button>
+      </span>
+      <span class="clock"><Clock /></span>
+      <p id="ofServers" class="center">Number of Servers: {{ count }}</p>
     </div>
     <div class="mainBody">
       <ServerView :servers=servers :fontSize=fontSize />
@@ -18,11 +21,12 @@
 
 <script>
 import ServerView from './ServerView'
+import Clock from './Clock'
 
 export default {
   name: 'mainView',
   components: {
-    ServerView
+    ServerView, Clock
   },
   data: () => ({
     count: 10,
@@ -45,17 +49,22 @@ export default {
 
 #mainView {
   height: 100%;
-  border: 1px solid red;
 }
 
 .header {
   height: 5vh;
   background-color: peachpuff;
-  text-align: center;
 }
 
 #ofServers {
   margin-top: 1vh;
+}
+
+.clock {
+  float: right;
+  margin-right: 2vw;
+  margin-top: 2vh;
+  font-size: 20px;
 }
 
 .mainBody {
@@ -72,6 +81,10 @@ export default {
 .footer {
   height: 5vh;
   background-color: purple;
+}
+
+.center {
+  text-align: center;
 }
 
 </style>
