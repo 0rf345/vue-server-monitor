@@ -10,18 +10,19 @@
       <p id="ofServers">{{ count }}</p>
     </div>
     <div class="mainBody">
-      <button v-for="server in servers" :key="server.id" :style=boxStyle>
-        {{ server }}
-      </button>
+      <ServerView :servers=servers :fontSize=fontSize />
     </div>
     <div class="footer"></div>
   </div>
 </template>
 
 <script>
+import ServerView from './ServerView'
+
 export default {
   name: 'mainView',
   components: {
+    ServerView
   },
   data: () => ({
     count: 10,
@@ -30,29 +31,11 @@ export default {
   methods: {
     addServers: function (add) {
       add ? this.count += 10 : this.count -= 10
-      if (this.count < 100) {
-        this.fontSize = 40
-      } else if (this.count < 140) {
-        this.fontSize = 35
-      } else if (this.count < 180) {
-        this.fontSize = 30
-      } else if (this.count < 260) {
-        this.fontSize = 25
-      } else if (this.count < 370) {
-        this.fontSize = 20
-      } else {
-        this.fontSize = 15
-      }
     }
   },
   computed: {
     servers: function () {
       return Array(this.count).fill('Serveras2222')
-    },
-    boxStyle: function () {
-      return (
-        'fontSize: ' + this.fontSize + 'px;'
-      )
     }
   }
 }
@@ -85,16 +68,6 @@ export default {
 .footer {
   height: 5vh;
   background-color: purple;
-}
-
-#ofServers {
-  margin-top: 0;
-}
-
-button {
-  background-color: #4CAF50; /* Green */
-  color: white;
-  border-radius: 5px;
 }
 
 </style>
