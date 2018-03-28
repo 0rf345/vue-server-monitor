@@ -2,11 +2,17 @@
   <div id="mainView">
     <div class="header">
       <span style="margin-left: 48vw; ">
-        <button @click="addServers(true)">
+        <button @click="addServers(true, 10)">
+          MOOORE
+        </button>
+        <button @click="addServers(true, 1)">
           MORE
         </button>
-        <button class="center" @click="addServers(false)">
+        <button class="center" @click="addServers(false, 1)">
           less
+        </button>
+        <button class="center" @click="addServers(false, 10)">
+          leeess
         </button>
       </span>
       <span class="clock"><Clock /></span>
@@ -38,8 +44,8 @@ export default {
     mainBody: {}
   }),
   methods: {
-    addServers: function (add) {
-      add ? this.count += 10 : this.count > 9 ? this.count -= 10 : this.count = this.count
+    addServers: function (add, a) {
+      add ? this.count += a : this.count > a ? this.count -= a : this.count = this.count
     }
   },
   computed: {
