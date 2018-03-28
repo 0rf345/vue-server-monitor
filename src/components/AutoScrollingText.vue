@@ -15,7 +15,6 @@ export default {
   }),
   watch: {
     footerHeight: function () {
-      console.log(this.footerHeight)
       this.fontSize = this.footerHeight - 2
     }
   },
@@ -40,7 +39,6 @@ export default {
   position: relative;
   background: white;
   color: black;
-  border: 1px solid black;
 }
 
 .scroll-left p {
