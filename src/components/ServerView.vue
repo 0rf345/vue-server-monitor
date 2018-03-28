@@ -36,7 +36,6 @@ export default {
       let height = this.parentDiv.height
       let mod = 0
       let rowFit = Math.floor(width / bWidth)
-      console.log(width % bWidth)
 
       if (numOfServers % rowFit >= 1) {
         mod = 1
@@ -44,10 +43,7 @@ export default {
         mod = 0
       }
 
-      console.log('--------------------------------------')
       while (height < (Math.floor(numOfServers / rowFit) + mod) * bHeight) {
-        console.log('Height of parent: ' + height + ' Height of children: ' + ((numOfServers / rowFit) * bHeight))
-        //  console.log('rowfit: ' + rowFit)
         previousF--
         bWidth = previousF * 0.519 * 12 + 16
         bHeight = previousF * 1.15 + 6
@@ -57,10 +53,6 @@ export default {
         } else {
           mod = 0
         }
-        console.log(rowFit)
-        console.log('Height of parent: ' + height + ' bHeight: ' + bHeight + ' vertBs: ' + Math.floor(numOfServers / rowFit) + mod + ' mod: ' + mod)
-        console.log('Width of parent: ' + width + ' bWidth' + bWidth)
-        console.log('-')
       }
       this.updateF(previousF)
       return previousF
@@ -73,6 +65,10 @@ export default {
 </script>
 
 <style scoped>
+
+#ServerView {
+  margin-top: 1px;
+}
 
 button {
   background-color: #4CAF50; /* Green */
