@@ -10,10 +10,13 @@
         </button>
       </span>
       <span class="clock"><Clock /></span>
-      <p id="ofServers" class="center">Number of Servers: {{ count }}</p>
+      <span>
+        <AutoScroller style="border: 2px dashed red;" />
+        <p id="ofServers" class="center">Number of Servers: {{ count }}</p>
+      </span>
     </div>
-    <div class="mainBody">
-      <ServerView :servers=servers :fontSize=fontSize />
+    <div class="mainBody" ref="mainBody">
+      <ServerView :parentDiv=mainBody :servers=servers :fontSize=fontSize />
     </div>
     <div class="footer"></div>
   </div>
@@ -22,15 +25,17 @@
 <script>
 import ServerView from './ServerView'
 import Clock from './Clock'
+import AutoScroller from './AutoScrollingText'
 
 export default {
   name: 'mainView',
   components: {
-    ServerView, Clock
+    ServerView, Clock, AutoScroller
   },
   data: () => ({
     count: 10,
-    fontSize: 40
+    fontSize: 40,
+    mainBody: {}
   }),
   methods: {
     addServers: function (add) {
@@ -41,6 +46,10 @@ export default {
     servers: function () {
       return Array(this.count).fill('Serveras2222')
     }
+  },
+  mounted: function () {
+    this.mainBody.width = this.$refs.mainBody.clientWidth
+    this.mainBody.height = this.$refs.mainBody.clientHeight
   }
 }
 </script>
@@ -57,7 +66,7 @@ export default {
 }
 
 #ofServers {
-  margin-top: 1vh;
+  margin-top: -2vh;
 }
 
 .clock {

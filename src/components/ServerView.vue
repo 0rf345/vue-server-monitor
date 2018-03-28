@@ -1,6 +1,6 @@
 <template>
-  <div id="ServerView">
-    <button v-for="server in servers" :key="server.id" :style="{ fontSize: fontSize + 'px'}">
+  <div id="ServerView" ref="serv">
+    <button v-for="(server, index) in servers" :ref="'ref'+index" :key="index" :style="{ fontSize: fontSize + 'px'}">
       {{ server }}
     </button>
   </div>
@@ -10,26 +10,32 @@
 export default {
   name: 'ServerView',
   data: () => ({
+    cheat: 1,
+    previousF: 100
   }),
-  props: ['servers'],
+  props: ['servers', 'parentDiv'],
   methods: {
   },
   computed: {
     fontSize: function () {
-      let numOfServers = this.servers.length
-      if (numOfServers < 100) {
-        return 40
-      } else if (numOfServers < 140) {
-        return 35
-      } else if (numOfServers < 180) {
-        return 30
-      } else if (numOfServers < 260) {
-        return 25
-      } else if (numOfServers < 370) {
-        return 20
-      } else {
-        return 15
+      let previousF = 100
+      let numOfServers = this.servers.length * this.cheat
+      let bWidth = previousF * 0.518 * 12 + 16
+      let bHeight = previousF * 1.15 + 6
+      if (!this.parentDiv.width) {
+        console.log('I was here')
+        return previousF
       }
+      let width = this.parentDiv.width
+      let height = this.parentDiv.height
+      let rowFit = Math.floor(width / bWidth)
+      while (height < (numOfServers / rowFit) * bHeight) {
+        previousF--
+        bWidth = previousF * 0.518 * 12 + 16
+        bHeight = previousF * 1.15 + 6
+        rowFit = Math.floor(width / bWidth)
+      }
+      return previousF
     }
   }
 }
