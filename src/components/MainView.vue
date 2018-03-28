@@ -1,7 +1,7 @@
 <template>
   <div id="mainView">
-    <div class="header">
-      <span style="margin-left: 48vw; ">
+    <div class="header" ref="header">
+      <span :style=headerStyle>
         <button @click="addServers(true, 10)">
           MOOORE
         </button>
@@ -14,10 +14,10 @@
         <button class="center" @click="addServers(false, 10)">
           leeess
         </button>
-      </span>
-      <span class="clock"><Clock /></span>
-      <span>
-        <p id="ofServers" class="center">Number of Servers: {{ count }}</p>
+        <span class="clock"><Clock /></span>
+        <span>
+          <p id="ofServers" class="center">Number of Servers: {{ count }}</p>
+        </span>
       </span>
     </div>
     <div class="mainBody" ref="mainBody">
@@ -43,7 +43,8 @@ export default {
     count: 10,
     fontSize: 40,
     mainBody: {},
-    footerHeight: 0
+    footerHeight: 0,
+    headerStyle: 'font-size:' + 35 + 'px;' + 'margin-left: ' + 48 + 'vw;' + 'line-height: ' + 30 + 'px;'
   }),
   methods: {
     addServers: function (add, a) {
@@ -59,6 +60,7 @@ export default {
     this.mainBody.width = this.$refs.mainBody.clientWidth
     this.mainBody.height = this.$refs.mainBody.clientHeight
     this.footerHeight = this.$refs.footer.clientHeight
+    this.headerStyle = 'font-size:' + (this.$refs.header.clientHeight - 5) + 'px;' + 'margin-left: ' + 30 + 'vw;' + 'line-height: ' + (this.$refs.header.clientHeight - 20) + 'px;'
   }
 }
 </script>
@@ -71,19 +73,19 @@ export default {
 
 .header {
   width: 100vw;
-  height: 5vh;
+  height: 5%;
   background-color: peachpuff;
 }
 
 #ofServers {
   margin-top: -2vh;
+  width: 25%;
 }
 
 .clock {
   float: right;
   margin-right: 2vw;
   margin-top: 2vh;
-  font-size: 20px;
 }
 
 .mainBody {
@@ -93,14 +95,14 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: left;
-  height: 90vh;
+  height: 90%;
   overflow: hidden;
   text-align: center;
 }
 
 .footer {
   width: 100vw;
-  height: 5vh;
+  height: 5%;
   background-color: purple;
 }
 

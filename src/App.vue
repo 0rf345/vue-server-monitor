@@ -16,6 +16,9 @@ export default {
 </script>
 
 <style>
+body {
+  height: 100%;
+}
 #app {
   top: 0px;
   left: 0px;
