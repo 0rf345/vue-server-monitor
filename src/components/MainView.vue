@@ -17,14 +17,15 @@
       </span>
       <span class="clock"><Clock /></span>
       <span>
-        <AutoScroller style="border: 2px dashed red;" />
         <p id="ofServers" class="center">Number of Servers: {{ count }}</p>
       </span>
     </div>
     <div class="mainBody" ref="mainBody">
       <ServerView :parentDiv=mainBody :servers=servers :fontSize=fontSize />
     </div>
-    <div class="footer"></div>
+    <div class="footer" ref="footer">
+      <AutoScroller :footerHeight=footerHeight />
+    </div>
   </div>
 </template>
 
@@ -41,7 +42,8 @@ export default {
   data: () => ({
     count: 10,
     fontSize: 40,
-    mainBody: {}
+    mainBody: {},
+    footerHeight: 0
   }),
   methods: {
     addServers: function (add, a) {
@@ -56,6 +58,7 @@ export default {
   mounted: function () {
     this.mainBody.width = this.$refs.mainBody.clientWidth
     this.mainBody.height = this.$refs.mainBody.clientHeight
+    this.footerHeight = this.$refs.footer.clientHeight
   }
 }
 </script>
@@ -67,6 +70,7 @@ export default {
 }
 
 .header {
+  width: 100vw;
   height: 5vh;
   background-color: peachpuff;
 }
@@ -83,6 +87,7 @@ export default {
 }
 
 .mainBody {
+  width: 100vw;
   background-color: DodgerBlue;
   display: flex table;
   flex-wrap: wrap;
@@ -94,6 +99,7 @@ export default {
 }
 
 .footer {
+  width: 100vw;
   height: 5vh;
   background-color: purple;
 }

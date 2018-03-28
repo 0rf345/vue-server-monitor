@@ -1,7 +1,7 @@
 <template>
   <div id="AutoScroller">
     <div class="scroll-left">
-      <p>Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... </p>
+      <p :style="{fontSize: fontSize + 'px', lineHeight: (fontSize - 5) + 'px'}">Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... </p>
     </div>
   </div>
 </template>
@@ -9,29 +9,44 @@
 <script>
 export default {
   name: 'AutoScroller',
-  props: ['customText']
+  props: ['customText', 'footerHeight'],
+  data: () => ({
+    fontSize: 20
+  }),
+  watch: {
+    footerHeight: function () {
+      console.log(this.footerHeight)
+      this.fontSize = this.footerHeight - 2
+    }
+  },
+  computed: {
+    pStyle: () => (
+      'font-size: ' + this.fontSize + 'px;' +
+      'line-height: ' + this.fontSize + 'px;'
+    )
+  }
 }
 </script>
 
 <style scoped>
 #AutoScroller {
-  width: 300px;
+  width: 100%;
+  height: 100%;
 }
 
 .scroll-left {
   overflow: hidden;
+  height: 100%;
   position: relative;
   background: white;
   color: black;
   border: 1px solid black;
-  height: 20px;
 }
 
 .scroll-left p {
   position: absolute;
   white-space: nowrap;
   width: 100%;
-  height: 100%;
   margin: 0;
   /* line-height: 50px; */
   text-align: center;
