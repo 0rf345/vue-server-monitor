@@ -9,6 +9,7 @@
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
+    "unit": "jest",
     "test": "jest"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
+    "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.1",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.22.0",
@@ -57,6 +59,7 @@
     "url-loader": "^0.5.8",
     "vue-jest": "^2.5.0",
     "vue-loader": "^13.3.0",
+    "vue-server-renderer": "^2.5.16",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "vue-test-utils": "^1.0.0-beta.11",
@@ -84,11 +87,6 @@
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    },
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/jest-serializer-vue"
-    ]
+    "verbose": true
   }
 }
