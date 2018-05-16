@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
     "unit": "jest",
-    "test": "jest --watch"
+    "test": "jest --coverage --watch"
   },
   "dependencies": {
     "vue": "^2.5.2"

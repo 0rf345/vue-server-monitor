@@ -27,6 +27,7 @@ export default {
       let bWidth = previousF * 0.519 * 12 + 16
       let bHeight = previousF * 1.15 + 6
 
+      /* istanbul ignore next */
       if (!this.parentDiv.width && this.cheat) {
         this.updateF(previousF)
         return previousF
@@ -37,10 +38,9 @@ export default {
       let mod = 0
       let rowFit = Math.floor(width / bWidth)
 
+      /* istanbul ignore next */
       if (numOfServers % rowFit >= 1) {
-        mod = 1
-      } else {
-        mod = 0
+        mod = 1        
       }
 
       while (height < (Math.floor(numOfServers / rowFit) + mod) * bHeight) {

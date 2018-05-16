@@ -17,12 +17,6 @@ export default {
     footerHeight: function () {
       this.fontSize = this.footerHeight - 2
     }
-  },
-  computed: {
-    pStyle: () => (
-      'font-size: ' + this.fontSize + 'px;' +
-      'line-height: ' + this.fontSize + 'px;'
-    )
   }
 }
 </script>

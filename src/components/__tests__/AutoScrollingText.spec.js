@@ -1,21 +1,22 @@
-import Vue from 'vue'
-import { mount } from 'vue-test-utils'
-import sinon from 'sinon'
+import { shallow } from 'vue-test-utils'
 
 import AutoScrollingText from '../AutoScrollingText'
 
 describe('AutoScrollingText', () => {
-  const ViewClone = Vue.extend(AutoScrollingText)
 
   let props = {
     customText: 'custom text',
-    footerHeight: 0
+    footerHeight: 30
   }
 
-  const wrapper = mount(AutoScrollingText, {
-    propsData: {
-      ...props
-    }
+  let wrapper
+  
+  beforeEach(() => {
+    wrapper = shallow(AutoScrollingText, {
+      propsData: {
+        ...props
+      }
+    })
   })
 
   describe('Sets up correctly', () => {
@@ -30,6 +31,16 @@ describe('AutoScrollingText', () => {
   describe('Exports correctly', () => {
     it('renders an AutoScroller element', () => {
       expect(wrapper.html()).toContain('id="' + wrapper.name() + '"')
+    })
+  })
+
+  describe('computed properties and watchers', () => {
+    it('changes font size based on footerHeight prop', () => {
+      let oldFontSize = wrapper.vm.fontSize
+      wrapper.setProps({
+        footerHeight: 1000
+      })
+      expect(wrapper.vm.fontSize).not.toBe(oldFontSize)
     })
   })
 })

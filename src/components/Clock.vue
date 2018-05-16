@@ -16,9 +16,8 @@ export default {
       this.date = new Date()
     }
   },
-  computed: {
-  },
   mounted: function () {
+    /* istanbul ignore next */
     this.timer = setInterval(() => this.tick(), 1000)
   }
 }
