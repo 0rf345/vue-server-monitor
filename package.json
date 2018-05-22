@@ -13,7 +13,9 @@
     "test": "jest --coverage --watch"
   },
   "dependencies": {
-    "vue": "^2.5.2"
+    "axios": "^0.18.0",
+    "vue": "^2.5.2",
+    "vue-axios": "^2.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
