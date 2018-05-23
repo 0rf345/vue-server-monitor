@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-let apiKey = 'u587507-ef028e160c997d362add8741' + 1
+let apiKey = 'u587507-ef028e160c997d362add8741'
 let url = 'https://api.uptimerobot.com/v2/getMonitors'
 
 axios.post(url, {
@@ -13,10 +13,10 @@ axios.post(url, {
   }
 })
   .then((response) => {
-    console.log('Not error')
+    console.log('Resolved')
     console.log(response)
   })
   .catch((error) => {
-    console.log('Error')
+    console.log('Rejected')
     console.log(error)
   })

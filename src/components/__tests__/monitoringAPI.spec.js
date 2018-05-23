@@ -2,20 +2,15 @@ import { getMonitors } from '../monitoringAPI'
 import axios from 'axios'
 
 describe('Monitoring API', () => {
-  let myAxios = {}
 
   describe('Setup', () => {
     it('requires axios to be injected', () => {
-      getMonitors().catch((err) => {
-        expect(err).toContain('Error')
-      })
+      return expect(getMonitors()).rejects.toContain('Error')
     })
   
-    beforeEach(() => {
-      myAxios = {
-        post: jest.fn().mockResolvedValue({status: 200, data: {}})
-      }
-    })
+    let myAxios = {
+      post: jest.fn().mockResolvedValue({status: 200, data: {}})
+    }
   
     it('calls axios', () => {
       getMonitors(myAxios)
@@ -27,18 +22,15 @@ describe('Monitoring API', () => {
 
   describe('Errors', () => {
     it('handles HTTP errors', () => {
-      myAxios = {
+      let myAxios = {
         post: jest.fn()
           .mockRejectedValueOnce({status: 502, data: {}}) 
       }
-      getMonitors(myAxios)
-        .then((res) => {
-          expect(res).toContain('Error')
-        })
+      return expect(getMonitors(myAxios)).resolves.toContain('Error')
     })
     
     it('handles other errors', () => {
-      myAxios = {
+      let myAxios = {
         post: jest.fn()
           .mockRejectedValueOnce({
             status: 200,
@@ -54,23 +46,53 @@ describe('Monitoring API', () => {
           })
           
       }
-      getMonitors(myAxios)
-        .then((res) => {
-          console.log(res)
-          expect(res).toContain('api_key')
-        })
+      return expect(getMonitors(myAxios)).resolves.toContain('api_key')
     })
     
   })
 
   describe('Normal behavior', () => {
-    myAxios = {
+    let monitors = [
+      { 
+        id: 780459894,
+        friendly_name: 'Amazon',
+        url: 'https://www.amazon.com',
+        type: 1,
+        status: 9,
+        ssl:
+        {
+          brand: 'DigiCert Inc',
+          product: 'DigiCert Global CA G2',
+          expires: 1557057600 
+        }
+      },
+      { 
+        id: 780459899,
+        url: 'https://www.csd.uoc.gr',
+        type: 1,
+        status: 2,
+        ssl:
+        {
+          brend: 'TERENA',
+          product: 'TERENA SSL CA 3',
+          expires: 1606910400
+        }
+      }
+    ]
+    let myAxios = {
       post: jest.fn().mockResolvedValue({
         status: 200,
-        data: {}
+        data: {
+          stat: 'ok',
+          pagination: { offset: 0, limit: 50, total: 10 },
+          monitors: monitors
+        }
       })
     }
 
+    it('Returns the monitors array', () => {
+      return expect(getMonitors(myAxios)).resolves.toEqual(monitors)
+    })
   })
   
 
