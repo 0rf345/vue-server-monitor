@@ -12,11 +12,19 @@ let url = 'https://api.uptimerobot.com/v2/getMonitors'
  * 9 - down
  */
 
-export function getMonitors(injAxios) {
-  if(!injAxios) {
-    return Promise.reject('Error, axios not injected')
+export function getMonitors (injAxios) {
+  if (!injAxios) {
+    return Promise.reject(new Error('Error, axios not injected'))
   } else {
-    return injAxios.post()
+    return injAxios.post(url, {
+      api_key: apiKey,
+      format: 'json',
+      logs: '1',
+      headers: {
+        'cache-control': 'no-cache',
+        'content-type': 'application/x-www-form-urlencoded'
+      }
+    })
       .then((res) => {
         return res.data.monitors
       }).catch((err) => {

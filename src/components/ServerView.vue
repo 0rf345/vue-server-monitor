@@ -1,7 +1,7 @@
 <template>
   <div id="ServerView" ref="serv">
-    <button v-for="(server, index) in servers" :ref="'ref'+index" :key="index" :style="{ fontSize: fontSize + 'px'}">
-      {{ server }}
+    <button v-for="(server, index) in servers" :ref="'ref'+index" :key="index" :style="{ fontSize: fontSize + 'px', backgroundColor: server.color }">
+      {{ server.name }}
     </button>
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
 
       /* istanbul ignore next */
       if (numOfServers % rowFit >= 1) {
-        mod = 1        
+        mod = 1
       }
 
       while (height < (Math.floor(numOfServers / rowFit) + mod) * bHeight) {

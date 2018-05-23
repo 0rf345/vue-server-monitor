@@ -33,6 +33,8 @@
 import ServerView from './ServerView'
 import Clock from './Clock'
 import AutoScroller from './AutoScrollingText'
+import { getMonitors } from './monitoringAPI'
+import axios from 'axios'
 
 export default {
   name: 'mainView',
@@ -40,7 +42,9 @@ export default {
     ServerView, Clock, AutoScroller
   },
   data: () => ({
-    count: 10,
+    monitors: [],
+    monitoringIntervalID: 0,
+    monitoringInterval: 5 * 60 * 1000,
     fontSize: 40,
     mainBody: {},
     footerHeight: 0,
@@ -49,11 +53,27 @@ export default {
   methods: {
     addServers: function (add, a) {
       add ? this.count += a : this.count > a ? this.count -= a : this.count = this.count
+    },
+    updateMonitors: function () {
+      getMonitors(axios).then((response) => {
+        this.monitors = response.slice()
+      })
     }
   },
   computed: {
     servers: function () {
-      return Array(this.count).fill('Serveras2222')
+      return this.monitors.map(monitor => {
+        let mappedMonitor = {}
+        mappedMonitor.name = monitor.friendly_name
+        mappedMonitor.status = monitor.status
+        if (mappedMonitor.status === 2) mappedMonitor.color = '#4CAF50'
+        else if (mappedMonitor.status === 0 || mappedMonitor.status === 1) mappedMonitor.color = '#FF9626'
+        else mappedMonitor.color = '#FF0C0C'
+        return mappedMonitor
+      })
+    },
+    count: function () {
+      return this.servers.length
     }
   },
   mounted: function () {
@@ -61,6 +81,8 @@ export default {
     this.mainBody.height = this.$refs.mainBody.clientHeight
     this.footerHeight = this.$refs.footer.clientHeight
     this.headerStyle = 'font-size:' + (this.$refs.header.clientHeight - 5) + 'px;' + 'margin-left: ' + 30 + 'vw;' + 'line-height: ' + (this.$refs.header.clientHeight - 20) + 'px;'
+    this.updateMonitors()
+    this.monitoringIntervalID = setInterval(this.updateMonitors, this.monitoringInterval)
   }
 }
 </script>

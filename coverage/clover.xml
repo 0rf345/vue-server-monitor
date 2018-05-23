@@ -1,7 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1527057099414" clover="3.2.0">
-  <project timestamp="1527057099414" name="All files">
-    <metrics statements="10" coveredstatements="10" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3" elements="17" coveredelements="17" complexity="0" loc="10" ncloc="10" packages="1" files="1" classes="1">
+<coverage generated="1527067094540" clover="3.2.0">
+  <project timestamp="1527067094540" name="All files">
+    <metrics statements="46" coveredstatements="44" conditionals="8" coveredconditionals="8" methods="16" coveredmethods="14" elements="70" coveredelements="66" complexity="0" loc="46" ncloc="46" packages="1" files="5" classes="5">
+      <file name="AutoScrollingText.vue" path="C:\Users\redho\Documents\Front-End_Bootcamp\Vue\vue-server-monitoring-tool\src\components\AutoScrollingText.vue">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+      </file>
+      <file name="Clock.vue" path="C:\Users\redho\Documents\Front-End_Bootcamp\Vue\vue-server-monitoring-tool\src\components\Clock.vue">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+      </file>
+      <file name="MainView.vue" path="C:\Users\redho\Documents\Front-End_Bootcamp\Vue\vue-server-monitoring-tool\src\components\MainView.vue">
+        <metrics statements="10" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="42" count="4" type="stmt"/>
+        <line num="51" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="56" count="6" type="stmt"/>
+        <line num="60" count="4" type="stmt"/>
+        <line num="61" count="4" type="stmt"/>
+        <line num="62" count="4" type="stmt"/>
+        <line num="63" count="4" type="stmt"/>
+      </file>
+      <file name="ServerView.vue" path="C:\Users\redho\Documents\Front-End_Bootcamp\Vue\vue-server-monitoring-tool\src\components\ServerView.vue">
+        <metrics statements="21" coveredstatements="21" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
+        <line num="12" count="5" type="stmt"/>
+        <line num="20" count="8" type="stmt"/>
+        <line num="25" count="7" type="stmt"/>
+        <line num="26" count="7" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="28" count="7" type="stmt"/>
+        <line num="36" count="7" type="stmt"/>
+        <line num="37" count="7" type="stmt"/>
+        <line num="38" count="7" type="stmt"/>
+        <line num="39" count="7" type="stmt"/>
+        <line num="46" count="7" type="stmt"/>
+        <line num="47" count="1466" type="stmt"/>
+        <line num="48" count="1466" type="stmt"/>
+        <line num="49" count="1466" type="stmt"/>
+        <line num="50" count="1466" type="stmt"/>
+        <line num="51" count="1466" type="cond" truecount="2" falsecount="0"/>
+        <line num="52" count="430" type="stmt"/>
+        <line num="54" count="1036" type="stmt"/>
+        <line num="57" count="7" type="stmt"/>
+        <line num="58" count="7" type="stmt"/>
+        <line num="62" count="5" type="stmt"/>
+      </file>
       <file name="monitoringAPI.js" path="C:\Users\redho\Documents\Front-End_Bootcamp\Vue\vue-server-monitoring-tool\src\components\monitoringAPI.js">
         <metrics statements="10" coveredstatements="10" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
         <line num="3" count="1" type="stmt"/>
@@ -9,11 +57,11 @@
         <line num="16" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="17" count="1" type="stmt"/>
         <line num="19" count="4" type="stmt"/>
-        <line num="21" count="2" type="stmt"/>
-        <line num="23" count="2" type="stmt"/>
-        <line num="24" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="25" count="2" type="stmt"/>
-        <line num="26" count="2" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="32" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
       </file>
     </metrics>
   </project>
