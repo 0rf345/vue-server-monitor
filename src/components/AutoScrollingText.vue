@@ -1,7 +1,7 @@
 <template>
   <div id="AutoScroller">
     <div class="scroll-left">
-      <p :style="{fontSize: fontSize + 'px', lineHeight: (fontSize - 5) + 'px'}">Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... Scroll left... </p>
+      <p :style="{fontSize: fontSize + 'px', lineHeight: (fontSize - 5) + 'px'}">{{ customText || 'No input was given' }}</p>
     </div>
   </div>
 </template>

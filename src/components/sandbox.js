@@ -14,7 +14,7 @@ axios.post(url, {
 })
   .then((response) => {
     console.log('Resolved')
-    console.log(response)
+    console.log(response.data.monitors)
   })
   .catch((error) => {
     console.log('Rejected')
