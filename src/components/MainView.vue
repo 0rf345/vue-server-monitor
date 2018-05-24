@@ -2,25 +2,8 @@
   <div v-if="noError" id="mainView">
     <div class="header" ref="header">
       <span :style=headerStyle>
-        <!-- DEPRECATED
-        <button @click="addServers(true, 10)">
-          MOOORE
-        </button>
-        <button @click="addServers(true, 1)">
-          MORE
-        </button>
-        <button class="center" @click="addServers(false, 1)">
-          less
-        </button>
-        <button class="center" @click="addServers(false, 10)">
-          leeess
-        </button>
-        -->
         <span class="clock"><Clock /></span>
         <span>
-          <!-- DEPRECATED
-          <p id="ofServers" class="center">Number of Servers: {{ count }}</p>
-          -->
           <p id="ofServers" class="center">Up:{{ upServers.length }} Down:{{ downServers.length }} Paused:{{ pausedServers.length }}</p>
         </span>
       </span>
@@ -134,7 +117,7 @@ export default {
           return (' ' + server.name + ': ' + server.domain)
         }).join()
       } else {
-        return 'All server are UP or inbetween'
+        return 'All server are UP or Paused'
       }
     }
   },
@@ -158,7 +141,7 @@ export default {
 .header {
   width: 100vw;
   height: 5%;
-  background-color: peachpuff;
+  background-color: #cccccc;
 }
 
 #ofServers {
@@ -174,7 +157,7 @@ export default {
 
 .mainBody {
   width: 100vw;
-  background-color: DodgerBlue;
+  background-color: black;
   display: flex table;
   flex-wrap: wrap;
   flex-direction: row;
@@ -187,7 +170,7 @@ export default {
 .footer {
   width: 100vw;
   height: 5%;
-  background-color: purple;
+  background-color: red;
 }
 
 .center {
@@ -203,8 +186,13 @@ export default {
 }
 
 #errMsg {
-  vertical-align: middle;
-  font-size: 150ex;
+  color: white;
+  margin: 0;
+  position: relative;
+  top: 50%;
+  font-size: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 </style>
