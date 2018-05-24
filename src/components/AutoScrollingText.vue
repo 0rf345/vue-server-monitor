@@ -31,8 +31,8 @@ export default {
   overflow: hidden;
   height: 100%;
   position: relative;
-  background: white;
-  color: black;
+  background: red;
+  color: white;
 }
 
 .scroll-left p {
@@ -47,9 +47,9 @@ export default {
   -webkit-transform:translateX(100%);
   transform:translateX(100%);
   /* Apply animation to this element */
-  -moz-animation: scroll-left 45s linear infinite;
-  -webkit-animation: scroll-left 45s linear infinite;
-  animation: scroll-left 45s linear infinite;
+  -moz-animation: scroll-left 30s linear infinite;
+  -webkit-animation: scroll-left 30s linear infinite;
+  animation: scroll-left 30s linear infinite;
 }
 /* Move it (define the animation) */
 @-moz-keyframes scroll-left {
