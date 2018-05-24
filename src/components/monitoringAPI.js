@@ -2,6 +2,7 @@
 // User API-Key for using uptimeRobot's getMonitors
 let apiKey = 'u587507-ef028e160c997d362add8741'
 let url = 'https://api.uptimerobot.com/v2/getMonitors'
+let timeOUTms = 20 * 1000
 
 /*
  * Status
@@ -25,8 +26,11 @@ export function getMonitors (injAxios) {
         'cache-control': 'no-cache',
         'content-type': 'application/x-www-form-urlencoded'
       }
+    }, {
+      timeout: timeOUTms
     })
       .then((res) => {
+        console.log('Am I ?')
         if (res.data.stat !== 'fail') {
           return res.data.monitors
         }
