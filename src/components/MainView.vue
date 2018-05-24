@@ -1,5 +1,5 @@
 <template>
-  <div id="mainView">
+  <div v-if="noError" id="mainView">
     <div class="header" ref="header">
       <span :style=headerStyle>
         <!-- DEPRECATED
@@ -21,7 +21,7 @@
           <!-- DEPRECATED
           <p id="ofServers" class="center">Number of Servers: {{ count }}</p>
           -->
-          <p id="ofServers" class="center">Up: {{ upServers.length }} Down: {{ downServers.length }} InBetween: {{ inBetweenServers.length }}</p>
+          <p id="ofServers" class="center">Up:{{ upServers.length }} Down:{{ downServers.length }} Paused:{{ pausedServers.length }}</p>
         </span>
       </span>
     </div>
@@ -30,6 +30,11 @@
     </div>
     <div class="footer" ref="footer">
       <AutoScroller :customText=downServersInfo :footerHeight=footerHeight />
+    </div>
+  </div>
+  <div v-else id="errorScreen">
+    <div id="errMsg">
+      {{ errMsg }}
     </div>
   </div>
 </template>
@@ -55,7 +60,7 @@ export default {
       status: [8, 9],
       color: '#FF0C0C'
     },
-    INBETWEEN: {
+    PAUSED: {
       status: [0, 1],
       color: '#FF9626'
     },
@@ -65,21 +70,29 @@ export default {
     fontSize: 40,
     mainBody: {},
     footerHeight: 0,
-    headerStyle: 'font-size:' + 35 + 'px;' + 'margin-left: ' + 48 + 'vw;' + 'line-height: ' + 30 + 'px;'
+    headerStyle: 'font-size:' + 35 + 'px;' + 'margin-left: ' + 48 + 'vw;' + 'line-height: ' + 30 + 'px;',
+    noError: true,
+    errMsg: 'ERROR'
   }),
   methods: {
     addServers: function (add, a) {
       add ? this.count += a : this.count > a ? this.count -= a : this.count = this.count
     },
     updateMonitors: function () {
-      getMonitors(axios).then((response) => {
-        this.monitors = response.slice()
-      })
+      getMonitors(axios)
+        .then((response) => {
+          this.noError = true
+          this.monitors = response.slice()
+        })
+        .catch((error) => {
+          this.noError = false
+          console.log(error.data.error)
+        })
     }
   },
   computed: {
     servers: function () {
-      return this.downServers.concat(this.inBetweenServers.concat(this.upServers))
+      return this.downServers.concat(this.upServers.concat(this.pausedServers))
     },
     upServers: function () {
       let res = this.monitors.filter(monitor => (this.UP.status.includes(monitor.status)))
@@ -102,13 +115,13 @@ export default {
         return coloredMonitor
       })
     },
-    inBetweenServers: function () {
-      let res = this.monitors.filter(monitor => (this.INBETWEEN.status.includes(monitor.status)))
+    pausedServers: function () {
+      let res = this.monitors.filter(monitor => (this.PAUSED.status.includes(monitor.status)))
       return res.map(monitor => {
         let coloredMonitor = {}
         coloredMonitor.name = monitor.friendly_name
         coloredMonitor.status = monitor.status
-        coloredMonitor.color = this.INBETWEEN.color
+        coloredMonitor.color = this.PAUSED.color
         return coloredMonitor
       })
     },
@@ -179,6 +192,19 @@ export default {
 
 .center {
   text-align: center;
+}
+
+#errorScreen {
+  position: absolute;
+  text-align: center;
+  background-color: red;
+  height: 100%;
+  width: 100%;
+}
+
+#errMsg {
+  vertical-align: middle;
+  font-size: 150ex;
 }
 
 </style>

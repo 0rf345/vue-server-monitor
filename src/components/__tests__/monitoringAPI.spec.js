@@ -5,7 +5,7 @@ describe('Monitoring API', () => {
 
   describe('Setup', () => {
     it('requires axios to be injected', () => {
-      return expect(getMonitors()).rejects.toContain('Error')
+      return expect(getMonitors()).rejects.toEqual(new Error("axios not injected"))
     })
   
     let myAxios = {

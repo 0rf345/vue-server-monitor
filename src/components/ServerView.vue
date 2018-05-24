@@ -74,6 +74,7 @@ button {
   background-color: #4CAF50; /* Green */
   color: white;
   border-radius: 5px;
+  margin: 2px 2px 2px 2px;
 }
 
 </style>

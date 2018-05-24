@@ -14,7 +14,8 @@ let url = 'https://api.uptimerobot.com/v2/getMonitors'
 
 export function getMonitors (injAxios) {
   if (!injAxios) {
-    return Promise.reject(new Error('Error, axios not injected'))
+    console.log('Axios not injected!')
+    return Promise.reject(new Error('axios not injected'))
   } else {
     return injAxios.post(url, {
       api_key: apiKey,
@@ -26,12 +27,17 @@ export function getMonitors (injAxios) {
       }
     })
       .then((res) => {
-        return res.data.monitors
+        if (res.data.stat !== 'fail') {
+          return res.data.monitors
+        }
+        throw res
       }).catch((err) => {
+        console.log('UptimeRobot rejected our call')
+        console.log(err)
         let msg = 'Rejected: Error, status code: ' + err.status + '\n'
         msg += err.data.error ? ('Got error message from API: ' + err.data.error.message) : ''
         console.log(msg)
-        return msg
+        return Promise.reject(err)
       })
   }
 }
