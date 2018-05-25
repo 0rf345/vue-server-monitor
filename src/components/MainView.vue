@@ -49,6 +49,7 @@ export default {
     },
     monitors: [],
     monitoringIntervalID: 0,
+    //  Minutes * seconds in one minute * milliseconds in one second
     monitoringInterval: 5 * 60 * 1000,
     fontSize: 40,
     mainBody: {},
@@ -63,9 +64,9 @@ export default {
     },
     updateMonitors: function () {
       getMonitors(axios)
-        .then((response) => {
+        .then((monitors) => {
           this.noError = true
-          this.monitors = response.slice()
+          this.monitors = monitors.slice()
         })
         .catch((error) => {
           this.noError = false
@@ -112,6 +113,9 @@ export default {
       return this.servers.length
     },
     downServersInfo: function () {
+      if (this.servers.length === 0) {
+        return 'No server info has been received yet, if this persists let someone know'
+      }
       if (this.downServers.length) {
         return 'The following servers are down ' + this.downServers.map(server => {
           return (' ' + server.name + ': ' + server.domain)

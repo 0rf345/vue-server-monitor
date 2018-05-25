@@ -3,6 +3,9 @@
 let apiKey = 'u587507-ef028e160c997d362add8741'
 let url = 'https://api.uptimerobot.com/v2/getMonitors'
 let timeOUTms = 20 * 1000
+var total = 0
+var offset = 0
+var limit = 10
 
 /*
  * Status
@@ -13,7 +16,52 @@ let timeOUTms = 20 * 1000
  * 9 - down
  */
 
+let apiPOSTrequest = (injAxios, localLimit, localOffset) => {
+  return injAxios.post(url, {
+    api_key: apiKey,
+    format: 'json',
+    logs: '1',
+    headers: {
+      'cache-control': 'no-cache',
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    limit: localLimit,
+    offset: localOffset
+  }, {
+    timeout: timeOUTms
+  })
+}
+
 export function getMonitors (injAxios) {
+  return injAxios.all([apiPOSTrequest(injAxios, limit, offset)])
+    .then((res0) => {
+      let firstMonitors = res0[0].data.monitors
+      let pagination = res0[0].data.pagination
+      //  production
+      //  limit = pagination.limit
+      total = pagination.total
+      offset += limit
+      let apiCallArr = []
+      for (offset; offset < total; offset += limit) {
+        apiCallArr.push(apiPOSTrequest(injAxios, limit, offset))
+      }
+
+      if (apiCallArr.length === 0) {
+        return firstMonitors
+      }
+
+      return injAxios.all(apiCallArr).then((resArray) => {
+        let resMonitors = firstMonitors.slice()
+        for (let index in resArray) {
+          resMonitors = resMonitors.concat(resArray[index].data.monitors)
+        }
+        return resMonitors
+      })
+    })
+}
+
+/*  DEPRECATED
+function getMonitorsPOST (injAxios) {
   if (!injAxios) {
     console.log('Axios not injected!')
     return Promise.reject(new Error('axios not injected'))
@@ -25,12 +73,20 @@ export function getMonitors (injAxios) {
       headers: {
         'cache-control': 'no-cache',
         'content-type': 'application/x-www-form-urlencoded'
-      }
+      },
+      limit: limit,
+      offset: offset
     }, {
       timeout: timeOUTms
     })
       .then((res) => {
-        console.log('Am I ?')
+        total = res.data.pagination.total
+
+        // production
+        // limit = response.data.pagination.limit
+
+        offset = offset + limit
+
         if (res.data.stat !== 'fail') {
           return res.data.monitors
         }
@@ -45,3 +101,4 @@ export function getMonitors (injAxios) {
       })
   }
 }
+*/
