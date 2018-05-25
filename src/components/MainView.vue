@@ -66,7 +66,6 @@ export default {
         preferredGetMonitors = testingGetMonitors
       }
 
-      //  let jsonURL = 'http://localhost:8000' you can set baseURL for axios
       /* istanbul ignore next */
       return axios.get('/key.json')
         .then(res => {

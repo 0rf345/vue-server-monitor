@@ -6,7 +6,7 @@ let url = 'https://api.uptimerobot.com/v2/getMonitors'
 let timeOUTms = 20 * 1000
 var total = 0
 var offset = 0
-var limit = 10
+var limit = 50
 
 /*
  * Status
@@ -26,8 +26,6 @@ let apiPOSTrequest = (injAxios, localOffset, apiKey) => {
       'cache-control': 'no-cache',
       'content-type': 'application/x-www-form-urlencoded'
     },
-    // The next line should be removed for production code
-    limit: limit,
     offset: localOffset
   }, {
     timeout: timeOUTms
