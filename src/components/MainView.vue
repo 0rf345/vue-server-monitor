@@ -67,10 +67,11 @@ export default {
       }
 
       //  let jsonURL = 'http://localhost:8000' you can set baseURL for axios
-      axios.get('/key.json')
+      /* istanbul ignore next */
+      return axios.get('/key.json')
         .then(res => {
           let apiKey = res.data.apiKey.toString()
-          preferredGetMonitors(axios, apiKey)
+          return preferredGetMonitors(axios, apiKey)
             .then((monitors) => {
               this.noError = true
               this.monitors = monitors.slice()

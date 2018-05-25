@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">89.19% </span>
+        <span class="strong">88.57% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>33/37</span>
+        <span class='fraction'>31/35</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>5/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">89.19% </span>
+        <span class="strong">88.57% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>33/37</span>
+        <span class='fraction'>31/35</span>
       </div>
     </div>
     <p class="quiet">
@@ -123,16 +123,10 @@
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L78'></a><a href='#L78'>78</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -164,9 +158,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -176,7 +167,6 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -211,15 +201,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
-// User API-Key for using uptimeRobot's getMonitors
-let jsonConf = require('../config/configuration.json')
+//  User API-Key for using uptimeRobot's getMonitors
+//  let jsonConf = require('../config/configuration.json')
 &nbsp;
-let apiKey = jsonConf.apiKey
 let url = 'https://api.uptimerobot.com/v2/getMonitors'
 let timeOUTms = 20 * 1000
 var total = 0
 var offset = 0
-var limit = 10
+var limit = 50
 &nbsp;
 /*
  * Status
@@ -230,36 +219,32 @@ var limit = 10
  * 9 - down
  */
 &nbsp;
-let apiPOSTrequest = (injAxios, localLimit, localOffset) =&gt; {
+let apiPOSTrequest = (injAxios, localLimit, localOffset, apiKey) =&gt; {
   return injAxios.post(url, {
-    api_key: apiKey,
     format: 'json',
+    api_key: apiKey,
     logs: '1',
     headers: {
       'cache-control': 'no-cache',
       'content-type': 'application/x-www-form-urlencoded'
     },
-    //  production
-    //  remove or comment out the following line
-    limit: localLimit,
     offset: localOffset
   }, {
     timeout: timeOUTms
   })
 }
 &nbsp;
-export function getMonitors (injAxios) {
+export function getMonitors (injAxios, apiKey) {
   if (!injAxios) {
     console.log('Axios not injected!')
     return Promise.reject(new Error('axios not injected'))
   }
-  return injAxios.all([apiPOSTrequest(injAxios, limit, offset)])
+  return injAxios.all([apiPOSTrequest(injAxios, limit, 0, apiKey)])
     .then((res0) =&gt; {
       if (res0[0].data.stat === 'fail') {
         console.log('Uptime Robot returned stat fail in data')
         throw (res0[0].data)
       }
-      
       let firstMonitors = res0[0].data.monitors
       let pagination = res0[0].data.pagination
 &nbsp;
@@ -268,7 +253,7 @@ export function getMonitors (injAxios) {
       offset += limit
       let apiCallArr = []
       for (offset; offset &lt; total; offset += limit) {
-        apiCallArr.push(apiPOSTrequest(injAxios, limit, offset))
+        apiCallArr.push(apiPOSTrequest(injAxios, limit, offset, apiKey))
       }
 &nbsp;
       if (apiCallArr.length === 0) {
@@ -298,7 +283,7 @@ export function getMonitors (injAxios) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri May 25 2018 14:03:34 GMT+0300 (GTB Daylight Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri May 25 2018 15:20:57 GMT+0300 (GTB Daylight Time)
 </div>
 </div>
 <script src="prettify.js"></script>

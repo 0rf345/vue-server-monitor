@@ -6,7 +6,7 @@ let url = 'https://api.uptimerobot.com/v2/getMonitors'
 let timeOUTms = 20 * 1000
 var total = 0
 var offset = 0
-var limit = 1
+var limit = 10
 
 /*
  * Status
@@ -17,7 +17,7 @@ var limit = 1
  * 9 - down
  */
 
-let apiPOSTrequest = (injAxios, localLimit, localOffset, apiKey) => {
+let apiPOSTrequest = (injAxios, localOffset, apiKey) => {
   return injAxios.post(url, {
     format: 'json',
     api_key: apiKey,
@@ -26,9 +26,8 @@ let apiPOSTrequest = (injAxios, localLimit, localOffset, apiKey) => {
       'cache-control': 'no-cache',
       'content-type': 'application/x-www-form-urlencoded'
     },
-    //  production
-    //  remove or comment out the following line
-    limit: localLimit,
+    // The next line should be removed for production code
+    limit: limit,
     offset: localOffset
   }, {
     timeout: timeOUTms
@@ -40,7 +39,7 @@ export function getMonitors (injAxios, apiKey) {
     console.log('Axios not injected!')
     return Promise.reject(new Error('axios not injected'))
   }
-  return injAxios.all([apiPOSTrequest(injAxios, limit, 0, apiKey)])
+  return injAxios.all([apiPOSTrequest(injAxios, 0, apiKey)])
     .then((res0) => {
       if (res0[0].data.stat === 'fail') {
         console.log('Uptime Robot returned stat fail in data')
@@ -54,7 +53,7 @@ export function getMonitors (injAxios, apiKey) {
       offset += limit
       let apiCallArr = []
       for (offset; offset < total; offset += limit) {
-        apiCallArr.push(apiPOSTrequest(injAxios, limit, offset, apiKey))
+        apiCallArr.push(apiPOSTrequest(injAxios, offset, apiKey))
       }
 
       if (apiCallArr.length === 0) {
