@@ -1,7 +1,18 @@
 import axios from 'axios'
-let jsonConf = require('../config/configuration.json')
+//  let jsonConf = require('../config/configuration.json')
 
-let apiKey = jsonConf.apiKey
+let jsonURL = 'http://localhost:8000'
+let apiKey = ''
+
+axios.get('/key.json', {baseURL: jsonURL})
+  .then(res => {
+    apiKey = res.data.apiKey
+    paginationMaster()
+      .then(res => console.log(res.length))
+  })
+  .catch(err => console.log(err))
+
+
 let url = 'https://api.uptimerobot.com/v2/getMonitors'
 var limit = 10
 var offset = 0
@@ -48,6 +59,3 @@ let paginationMaster = (() => {
       })
     })
 })
-
-paginationMaster()
-  .then(res => console.log(res.length))

@@ -62,17 +62,25 @@ export default {
     updateMonitors: function (testingGetMonitors) {
       let preferredGetMonitors = getMonitors
       if (testingGetMonitors) {
+        console.log('We should be testing right now')
         preferredGetMonitors = testingGetMonitors
       }
-      return preferredGetMonitors(axios)
-        .then((monitors) => {
-          this.noError = true
-          this.monitors = monitors.slice()
+
+      //  let jsonURL = 'http://localhost:8000' you can set baseURL for axios
+      axios.get('/key.json')
+        .then(res => {
+          let apiKey = res.data.apiKey.toString()
+          preferredGetMonitors(axios, apiKey)
+            .then((monitors) => {
+              this.noError = true
+              this.monitors = monitors.slice()
+            })
+            .catch((error) => {
+              this.noError = false
+              console.log(error)
+            })
         })
-        .catch((error) => {
-          this.noError = false
-          console.log(error)
-        })
+        .catch(err => console.log(err))
     }
   },
   computed: {
