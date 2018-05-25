@@ -9,7 +9,7 @@ var globalArr = []
 var total = 0
 var timeOUTms = 10 * 1000
 
-function getMonitors (off) {
+let apiPOSTrequest = (localLimit, localOffset) => {
   return axios.post(url, {
     api_key: apiKey,
     format: 'json',
@@ -18,88 +18,54 @@ function getMonitors (off) {
         'cache-control': 'no-cache',
         'content-type': 'application/x-www-form-urlencoded'
     },
-    limit: limit,
-    offset: offset
+    limit: localLimit,
+    offset: localOffset
   }, {
     timeout: timeOUTms
   })
-    .then((response) => {
-      console.log('Resolved')
-      total = response.data.pagination.total
+}
 
-      // production
-      // limit = response.data.pagination.limit
+let paginationMaster = (() => {
+  axios.all([apiPOSTrequest(limit, offset)])
+    .then((res0) => {
+      let firstMonitors = res0[0].data.monitors
+      let pagination = res0[0].data.pagination
       
-      offset = offset + limit
-      return response
-    })
-    .catch((error) => {
-      console.log('Rejected')
-      console.log(error)
-      console.log(error.response.data)
-      return error
-    })
-}
-
-function goGetter() {
-  return getMonitors(offset)
-    .then((res) => {
-      // console.log(monitors)
-      if (offset >= total) {
-        monitors = monitors.concat(res.data.monitors)
-        console.log(monitors.filter(x => x).length)
-        return monitors
-      } else {
-        //  console.log(res.data.monitors.length)
-        return monitors = monitors.concat(res.data.monitors.concat(goGetter()))
+      //  production
+      //  limit = pagination.limit
+      total = pagination.total
+      offset += limit
+      let apiCallArr = []
+      for (offset; offset < total; offset += limit) {
+        apiCallArr.push(apiPOSTrequest(limit, offset))
       }
-    })
-    .catch(err => console.log(err))
-}
 
-axios.all([
-  axios.post(url, {
-    api_key: apiKey,
-    format: 'json',
-    logs: '1',
-    headers: {
-        'cache-control': 'no-cache',
-        'content-type': 'application/x-www-form-urlencoded'
-    },
-    limit: 20,
-    offset: 0
-  }, {
-    timeout: timeOUTms
-  }),
-  axios.post(url, {
-    api_key: apiKey,
-    format: 'json',
-    logs: '1',
-    headers: {
-        'cache-control': 'no-cache',
-        'content-type': 'application/x-www-form-urlencoded'
-    },
-    limit: 20,
-    offset: 20
-  }, {
-    timeout: timeOUTms
-  }),
-  axios.post(url, {
-    api_key: apiKey,
-    format: 'json',
-    logs: '1',
-    headers: {
-        'cache-control': 'no-cache',
-        'content-type': 'application/x-www-form-urlencoded'
-    },
-    limit: 20,
-    offset: 40
-  }, {
-    timeout: timeOUTms
-  })
-])
-  .then(axios.spread((res1, res2, res3) => {
-    console.log(res1.data.monitors.concat(res2.data.monitors.concat(res3.data.monitors)))
+      axios.all(apiCallArr).then((resArray) => {
+        let resMonitors = firstMonitors.slice()
+        for (let index in resArray) {
+          resMonitors.concat(resArray[index].data.monitors)
+        }
+        console.log(resMonitors.length)
+      })
+    })
+})
+
+paginationMaster()
+
+/*
+axios.all(
+  (() => {
+    let i = 0
+    let res = []
+    for (i; i < 3; i++) {
+      res.push(a(i))
+    }
+    return res
+  })()
+)
+  .then(((resArray) => {
+    console.log(resArray[0].data.monitors.concat(resArray[1].data.monitors.concat(resArray[2].data.monitors)).length)
   }))
+  */
 
 //  goGetter().then(res => console.log(res.length))
