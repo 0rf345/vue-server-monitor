@@ -1,6 +1,8 @@
 
 // User API-Key for using uptimeRobot's getMonitors
-let apiKey = 'u587507-ef028e160c997d362add8741'
+let jsonConf = require('../config/configuration.json')
+
+let apiKey = jsonConf.apiKey
 let url = 'https://api.uptimerobot.com/v2/getMonitors'
 let timeOUTms = 20 * 1000
 var total = 0
@@ -67,56 +69,13 @@ export function getMonitors (injAxios) {
         }
         return resMonitors
       }).catch((err) => {
-        console.log('UptimeRobot rejected our call')
+        console.log('UptimeRobot rejected our mass call')
         console.log(err)
         return new Error(err)
       })
     }).catch((err) => {
-      console.log('UptimeRobot rejected our call')
+      console.log('UptimeRobot rejected our first call')
       console.log(err)
-      return Promise.reject(new Error('See console log above'))
+      return Promise.reject(new Error('Error: See console log above'))
     })
 }
-
-/*  DEPRECATED
-function getMonitorsPOST (injAxios) {
-  if (!injAxios) {
-    console.log('Axios not injected!')
-    return Promise.reject(new Error('axios not injected'))
-  } else {
-    return injAxios.post(url, {
-      api_key: apiKey,
-      format: 'json',
-      logs: '1',
-      headers: {
-        'cache-control': 'no-cache',
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      limit: limit,
-      offset: offset
-    }, {
-      timeout: timeOUTms
-    })
-      .then((res) => {
-        total = res.data.pagination.total
-
-        // production
-        // limit = response.data.pagination.limit
-
-        offset = offset + limit
-
-        if (res.data.stat !== 'fail') {
-          return res.data.monitors
-        }
-        throw res
-      }).catch((err) => {
-        console.log('UptimeRobot rejected our call')
-        console.log(err)
-        let msg = 'Rejected: Error, status code: ' + err.status + '\n'
-        msg += err.data.error ? ('Got error message from API: ' + err.data.error.message) : ''
-        console.log(msg)
-        return Promise.reject(err)
-      })
-  }
-}
-*/

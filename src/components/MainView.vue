@@ -59,11 +59,12 @@ export default {
     errMsg: 'ERROR'
   }),
   methods: {
-    addServers: function (add, a) {
-      add ? this.count += a : this.count > a ? this.count -= a : this.count = this.count
-    },
-    updateMonitors: function () {
-      getMonitors(axios)
+    updateMonitors: function (testingGetMonitors) {
+      let preferredGetMonitors = getMonitors
+      if (testingGetMonitors) {
+        preferredGetMonitors = testingGetMonitors
+      }
+      return preferredGetMonitors(axios)
         .then((monitors) => {
           this.noError = true
           this.monitors = monitors.slice()
@@ -121,7 +122,7 @@ export default {
           return (' ' + server.name + ': ' + server.domain)
         }).join()
       } else {
-        return 'All server are UP or Paused'
+        return 'All servers are UP or Paused'
       }
     }
   },

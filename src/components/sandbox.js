@@ -1,6 +1,7 @@
 import axios from 'axios'
+let jsonConf = require('../config/configuration.json')
 
-let apiKey = 'u587507-ef028e160c997d362add8741'
+let apiKey = jsonConf.apiKey
 let url = 'https://api.uptimerobot.com/v2/getMonitors'
 var limit = 10
 var offset = 0
