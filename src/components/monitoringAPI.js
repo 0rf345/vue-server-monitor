@@ -25,6 +25,8 @@ let apiPOSTrequest = (injAxios, localLimit, localOffset) => {
       'cache-control': 'no-cache',
       'content-type': 'application/x-www-form-urlencoded'
     },
+    //  production
+    //  remove or comment out the following line
     limit: localLimit,
     offset: localOffset
   }, {
@@ -33,12 +35,20 @@ let apiPOSTrequest = (injAxios, localLimit, localOffset) => {
 }
 
 export function getMonitors (injAxios) {
+  if (!injAxios) {
+    console.log('Axios not injected!')
+    return Promise.reject(new Error('axios not injected'))
+  }
   return injAxios.all([apiPOSTrequest(injAxios, limit, offset)])
     .then((res0) => {
+      if (res0[0].data.stat === 'fail') {
+        console.log('Uptime Robot returned stat fail in data')
+        throw (res0[0].data)
+      }
       let firstMonitors = res0[0].data.monitors
       let pagination = res0[0].data.pagination
-      //  production
-      //  limit = pagination.limit
+
+      limit = pagination.limit
       total = pagination.total
       offset += limit
       let apiCallArr = []
@@ -56,7 +66,15 @@ export function getMonitors (injAxios) {
           resMonitors = resMonitors.concat(resArray[index].data.monitors)
         }
         return resMonitors
+      }).catch((err) => {
+        console.log('UptimeRobot rejected our call')
+        console.log(err)
+        return new Error(err)
       })
+    }).catch((err) => {
+      console.log('UptimeRobot rejected our call')
+      console.log(err)
+      return Promise.reject(new Error('See console log above'))
     })
 }
 

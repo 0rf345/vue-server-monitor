@@ -70,7 +70,7 @@ export default {
         })
         .catch((error) => {
           this.noError = false
-          console.log(error.data.error)
+          console.log(error)
         })
     }
   },
