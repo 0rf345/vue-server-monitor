@@ -4,7 +4,7 @@
       <span :style=headerStyle>
         <span class="clock"><Clock /></span>
         <span>
-          <p id="ofServers" class="center">Up:{{ upServers.length }} Down:{{ downServers.length }} Paused:{{ pausedServers.length }}</p>
+          <p id="ofServers">Up:{{ upServers.length }} Down:{{ downServers.length }} Paused:{{ pausedServers.length }}</p>
         </span>
       </span>
     </div>
@@ -56,7 +56,8 @@ export default {
     footerHeight: 0,
     headerStyle: 'font-size:' + 35 + 'px;' + 'margin-left: ' + 48 + 'vw;' + 'line-height: ' + 30 + 'px;',
     noError: true,
-    errMsg: 'ERROR'
+    errMsg: 'ERROR',
+    ignSuf: []
   }),
   methods: {
     updateMonitors: function (testingGetMonitors) {
@@ -67,9 +68,10 @@ export default {
       }
 
       /* istanbul ignore next */
-      return axios.get('/key.json')
+      return axios.all([axios.get('/key.json'), axios.get('/suffixes.json')])
         .then(res => {
-          let apiKey = res.data.apiKey.toString()
+          let apiKey = res[0].data.apiKey.toString()
+          this.ignSuf = res[1].data.sufArr.slice()
           return preferredGetMonitors(axios, apiKey)
             .then((monitors) => {
               this.noError = true
@@ -81,6 +83,14 @@ export default {
             })
         })
         .catch(err => console.log(err))
+    },
+    ignoreSuffixes: function (originalText) {
+      let ignSuf = ''
+      this.ignSuf.forEach(suf => {
+        if (originalText.includes(suf) && suf.length > ignSuf.length) ignSuf = suf
+      })
+
+      return originalText.replace(ignSuf, '')
     }
   },
   computed: {
@@ -91,7 +101,7 @@ export default {
       let res = this.monitors.filter(monitor => (this.UP.status.includes(monitor.status)))
       return res.map(monitor => {
         let coloredMonitor = {}
-        coloredMonitor.name = monitor.friendly_name
+        coloredMonitor.name = this.ignoreSuffixes(monitor.friendly_name)
         coloredMonitor.status = monitor.status
         coloredMonitor.color = this.UP.color
         return coloredMonitor
@@ -101,7 +111,7 @@ export default {
       let res = this.monitors.filter(monitor => (this.DOWN.status.includes(monitor.status)))
       return res.map(monitor => {
         let coloredMonitor = {}
-        coloredMonitor.name = monitor.friendly_name
+        coloredMonitor.name = this.ignoreSuffixes(monitor.friendly_name)
         coloredMonitor.status = monitor.status
         coloredMonitor.color = this.DOWN.color
         coloredMonitor.domain = monitor.url
@@ -112,7 +122,7 @@ export default {
       let res = this.monitors.filter(monitor => (this.PAUSED.status.includes(monitor.status)))
       return res.map(monitor => {
         let coloredMonitor = {}
-        coloredMonitor.name = monitor.friendly_name
+        coloredMonitor.name = this.ignoreSuffixes(monitor.friendly_name)
         coloredMonitor.status = monitor.status
         coloredMonitor.color = this.PAUSED.color
         return coloredMonitor
@@ -159,7 +169,9 @@ export default {
 
 #ofServers {
   margin-top: -2vh;
-  width: 25%;
+  width: 75%;
+  position: relative;
+  left: 3%;
 }
 
 .clock {

@@ -1,0 +1,4 @@
+{
+  "description": "sufArr is an array of suffixed to be ignore when presented as part of a server name",
+  "sufArr": [".tolabaki.gr", ".beer"]
+}
