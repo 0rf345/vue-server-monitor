@@ -33,7 +33,7 @@ describe('Monitoring API', () => {
 
   describe('Setup', () => {
     it('requires axios to be injected', () => {
-      expect(getMonitors()).rejects.toEqual(new Error("axios not injected"))
+      expect(getMonitors()).rejects.toMatchSnapshot()
     })
   
     let myAxios = {
@@ -49,7 +49,7 @@ describe('Monitoring API', () => {
           .mockRejectedValueOnce({status: 502, data: {}}) ,
         all: jest.fn().mockResolvedValue(jest.fn().mockRejectedValue({status: 502, data: {}}))
       }
-      expect(getMonitors(myAxios)).rejects.toThrowError()
+      expect(getMonitors(myAxios)).rejects.toMatchSnapshot()
     })
     
     it('handles stat fail reject', () => {
@@ -113,7 +113,7 @@ describe('Monitoring API', () => {
           }
         }])
       }
-      expect(getMonitors(myAxios)).rejects.toThrowError()
+      expect(getMonitors(myAxios)).rejects.toMatchSnapshot()
     })
 
     it('handles error on second axios.all request', () => {
@@ -144,7 +144,7 @@ describe('Monitoring API', () => {
             }
           }])
       }
-      expect(getMonitors(myAxios)).rejects.toThrowError()
+      expect(getMonitors(myAxios)).resolves.toMatchSnapshot()
     })
     
   })
@@ -196,7 +196,7 @@ describe('Monitoring API', () => {
           .mockResolvedValueOnce([axiosResult])
           .mockResolvedValue(Array(4).fill(axiosResult))
       }
-      expect(getMonitors(paginationAxios)).resolves.toBeDefined()
+      expect(getMonitors(paginationAxios)).resolves.toMatchSnapshot()
     })
   })
   
